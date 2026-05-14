@@ -1,2 +1,226 @@
 # Foryou224
-Web Mizu
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Only For You❤️</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffe4e1 url('https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=1920') no-repeat center center/cover;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.4);
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            backdrop-filter: blur(8px);
+            min-height: 300px;
+        }
+
+        h2, h1 { color: #d63384; margin-bottom: 15px; }
+        p { color: #444; margin-bottom: 20px; font-size: 1.1rem; }
+
+        #display-image { 
+            width: 150px; 
+            height: 150px; 
+            object-fit: cover; 
+            border-radius: 20px; 
+            margin-bottom: 20px; 
+            display: none; 
+            border: 4px solid #ffb6c1;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            border: 2px solid #ffb6c1;
+            border-radius: 12px;
+            width: 100%;
+            margin-bottom: 15px;
+            outline: none;
+            text-align: center;
+        }
+
+        .btn-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            height: 60px; /* Memberi ruang untuk tombol lari */
+            position: relative;
+        }
+
+        button {
+            padding: 12px 28px;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            font-size: 1rem;
+            z-index: 3;
+        }
+
+        #btn-cek, #btn-pacaran { background-color: #ff69b4; }
+        #btn-temenan { background-color: #95a5a6; position: relative; }
+
+        #final-section, #video-player-container { display: none; }
+
+        video { width: 100%; border-radius: 15px; margin-top: 10px; }
+
+        .heart {
+            position: absolute;
+            color: #ff0000;
+            pointer-events: none;
+            z-index: 5;
+            animation: fly 3s linear forwards;
+        }
+
+        @keyframes fly {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-card">
+        <div id="game-section">
+            <h2>Teka-teki Syuuulittt! 🧐</h2>
+            <p>Minyak apa yang memabukan?</p>
+            <center><img id="display-image" src="" alt="Respon"></center>
+            <input type="text" id="answer" placeholder="Petunjuk: hal favoritku...">
+            <button id="btn-cek" onclick="checkAnswer()">Kirim Jawaban</button>
+        </div>
+
+        <div id="final-section">
+            <h1>Ciee...kok tauu sihh❤️</h1>
+            <p>BTW Sebenarnya aku mau tanya...hubungan kita mau gimana?</p>
+            <div class="btn-wrapper" id="action-space">
+                <button id="btn-pacaran" onclick="pilihMau()">Pacaran</button>
+                <button id="btn-temenan" onmouseover="moveButton()">Temenan aja</button>
+            </div>
+        </div>
+
+        <div id="video-player-container">
+            <h2 id="video-title">POV : Hatiku Sekarang...</h2>
+            <video id="my-video" controls playsinline></video>
+        </div>
+    </div>
+
+    <script>
+        const NOMOR_WA = "6288293215164"; 
+        const VIDEO_MAU = "https://docs.google.com/uc?export=download&id=1L62942pt12JURtFe8OWuANXPba2wVMeX"; 
+        const VIDEO_GA  = "https://docs.google.com/uc?export=download&id=1DRXb6i51OaKjvPNCiB6DC_wFrC9R2OqF"; 
+
+        let gaCount = 0;
+
+        function checkAnswer() {
+            const ans = document.getElementById('answer').value.toLowerCase();
+            const img = document.getElementById('display-image');
+            
+            if (ans.includes("tersenyum") || ans.includes("menyaksikan")) {
+                document.getElementById('game-section').style.display = "none";
+                document.getElementById('final-section').style.display = "block";
+                spawnHearts();
+            } else {
+                img.style.display = "block";
+                img.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDBxOXV2ZXdxdW1pMm9rNHNlMDg5d242NXlzejR4ZDk4cDh2c2RoeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WrxoaVPiq0cG4/giphy.gif";
+                alert("dibilangin juga hal favoritku!!");
+            }
+        }
+
+        function moveButton() {
+            gaCount++;
+            const btn = document.getElementById('btn-temenan');
+            const wrapper = document.getElementById('action-space');
+            
+            if (gaCount <= 5) {
+                // Tombol lari hanya di dalam kotak (container)
+                // Menggunakan posisi absolut relatif terhadap wrapper-nya
+                const maxX = wrapper.clientWidth - btn.clientWidth;
+                const maxY = 150; // Jarak maksimal lari ke atas/bawah
+
+                const newX = Math.random() * maxX;
+                const newY = (Math.random() * maxY) - (maxY / 2); // Bisa lari ke atas atau bawah
+
+                btn.style.position = 'absolute';
+                btn.style.left = newX + 'px';
+                btn.style.top = newY + 'px';
+            } else {
+                // Berhenti lari setelah 5 kali
+                btn.onmouseover = null;
+                btn.style.position = 'relative';
+                btn.style.left = '0';
+                btn.style.top = '0';
+                btn.onclick = pilihGa;
+                alert("yaudah iyaa maunya gitumaa... klik lagi tombolnya 🥺");
+            }
+        }
+
+        function pilihMau() {
+            startVideo(VIDEO_MAU, "Pacaran (Semoga ini abadi! ❤️)");
+        }
+
+        function pilihGa() {
+            startVideo(VIDEO_GA, "Temenan aja (Sebatas itu pantasku yaa..🥺)");
+        }
+
+        function startVideo(url, pesan) {
+            document.getElementById('final-section').style.display = "none";
+            document.getElementById('video-player-container').style.display = "block";
+            
+            const vid = document.getElementById('my-video');
+            vid.src = url;
+            vid.load();
+            vid.play();
+
+            vid.onended = () => {
+                const text = encodeURIComponent(`sengg ini jawabanku: ${pesan}`);
+                window.open(`https://api.whatsapp.com/send?phone=${NOMOR_WA}&text=${text}`, '_blank');
+                document.getElementById('main-card').innerHTML = "<h1>Makasih udah jujur! ❤️</h1><p>Cek WhatsApp kamu ya!</p>";
+            };
+        }
+
+        function spawnHearts() {
+            for(let i=0; i<15; i++) {
+                setTimeout(() => {
+                    const h = document.createElement('div');
+                    h.className = 'heart';
+                    h.innerHTML = '❤️';
+                    h.style.left = Math.random() * 100 + 'vw';
+                    h.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                    h.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(h);
+                    setTimeout(() => h.remove(), 3000);
+                }, i * 200);
+            }
+        }
+    </script>
+</body>
+</html>
