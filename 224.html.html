@@ -69,7 +69,7 @@
             align-items: center;
             gap: 15px;
             margin-top: 20px;
-            height: 60px; /* Memberi ruang untuk tombol lari */
+            height: 100px; /* Ruang lebih luas untuk tombol lari */
             position: relative;
         }
 
@@ -90,7 +90,7 @@
 
         #final-section, #video-player-container { display: none; }
 
-        video { width: 100%; border-radius: 15px; margin-top: 10px; }
+        video { width: 100%; border-radius: 15px; margin-top: 10px; background: #000; }
 
         .heart {
             position: absolute;
@@ -118,8 +118,8 @@
         </div>
 
         <div id="final-section">
-            <h1>Ciee...kok tauu sihh❤️</h1>
-            <p>BTW Sebenarnya aku mau tanya...hubungan kita mau gimana?</p>
+            <h1>Ciee... kok tauu sihh❤️</h1>
+            <p>BTW Sebenarnya aku mau tanya... hubungan kita mau gimana?</p>
             <div class="btn-wrapper" id="action-space">
                 <button id="btn-pacaran" onclick="pilihMau()">Pacaran</button>
                 <button id="btn-temenan" onmouseover="moveButton()">Temenan aja</button>
@@ -133,9 +133,10 @@
     </div>
 
     <script>
+        // KONFIGURASI - Pastikan nama file video sesuai dengan yang di-upload
         const NOMOR_WA = "6288293215164"; 
-        const VIDEO_MAU = "https://docs.google.com/uc?export=download&id=1L62942pt12JURtFe8OWuANXPba2wVMeX"; 
-        const VIDEO_GA  = "https://docs.google.com/uc?export=download&id=1DRXb6i51OaKjvPNCiB6DC_wFrC9R2OqF"; 
+        const VIDEO_MAU = "mau.mp4"; 
+        const VIDEO_GA  = "ga-mau.mp4"; 
 
         let gaCount = 0;
 
@@ -143,6 +144,7 @@
             const ans = document.getElementById('answer').value.toLowerCase();
             const img = document.getElementById('display-image');
             
+            // Logika jawaban: mengandung kata 'tersenyum' atau 'menyaksikan'
             if (ans.includes("tersenyum") || ans.includes("menyaksikan")) {
                 document.getElementById('game-section').style.display = "none";
                 document.getElementById('final-section').style.display = "block";
@@ -150,7 +152,7 @@
             } else {
                 img.style.display = "block";
                 img.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDBxOXV2ZXdxdW1pMm9rNHNlMDg5d242NXlzejR4ZDk4cDh2c2RoeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WrxoaVPiq0cG4/giphy.gif";
-                alert("dibilangin juga hal favoritku!!");
+                alert("Salah! Petunjuknya: Sesuatu yang aku suka lakukan saat melihatmu...");
             }
         }
 
@@ -160,25 +162,24 @@
             const wrapper = document.getElementById('action-space');
             
             if (gaCount <= 5) {
-                // Tombol lari hanya di dalam kotak (container)
-                // Menggunakan posisi absolut relatif terhadap wrapper-nya
+                // Tombol "lari" secara acak di dalam area wrapper
                 const maxX = wrapper.clientWidth - btn.clientWidth;
-                const maxY = 150; // Jarak maksimal lari ke atas/bawah
+                const maxY = wrapper.clientHeight - btn.clientHeight;
 
                 const newX = Math.random() * maxX;
-                const newY = (Math.random() * maxY) - (maxY / 2); // Bisa lari ke atas atau bawah
+                const newY = (Math.random() * maxY);
 
                 btn.style.position = 'absolute';
                 btn.style.left = newX + 'px';
                 btn.style.top = newY + 'px';
             } else {
-                // Berhenti lari setelah 5 kali
+                // Setelah 5 kali menghindar, tombol menyerah
                 btn.onmouseover = null;
                 btn.style.position = 'relative';
                 btn.style.left = '0';
                 btn.style.top = '0';
                 btn.onclick = pilihGa;
-                alert("yaudah iyaa maunya gitumaa... klik lagi tombolnya 🥺");
+                alert("Yaudah iyaa kok maksa... klik lagi kalau emang mau temenan aja 🥺");
             }
         }
 
@@ -197,12 +198,20 @@
             const vid = document.getElementById('my-video');
             vid.src = url;
             vid.load();
-            vid.play();
+            
+            // Mencoba memutar video secara otomatis
+            const playPromise = vid.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Jika diblokir browser, video tetap muncul tapi nunggu di-klik play
+                    console.log("Klik manual untuk memutar video");
+                });
+            }
 
             vid.onended = () => {
                 const text = encodeURIComponent(`sengg ini jawabanku: ${pesan}`);
                 window.open(`https://api.whatsapp.com/send?phone=${NOMOR_WA}&text=${text}`, '_blank');
-                document.getElementById('main-card').innerHTML = "<h1>Makasih udah jujur! ❤️</h1><p>Cek WhatsApp kamu ya!</p>";
+                document.getElementById('main-card').innerHTML = "<h1>Makasih udah jujur! ❤️</h1><p>Semoga harimu menyenangkan!</p>";
             };
         }
 
